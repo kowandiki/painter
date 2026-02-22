@@ -52,6 +52,14 @@ public class Queue
 	public static void startCounter()
 	{
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
+			Vec3d playerPos = null;
+			if (FabricPainterClient.mc.player != null) {
+				playerPos = new Vec3d(
+						FabricPainterClient.mc.player.getX(),
+						FabricPainterClient.mc.player.getY(),
+						FabricPainterClient.mc.player.getZ());
+			}
+//			
 //			System.out.println(client.player.getInventory().size());
 			if (!Hotkeys.getToggle())
 			{
@@ -71,7 +79,7 @@ public class Queue
 				client.player.sendMessage(Text.literal("not sitting, sit at easel before trying to paint"), false);
 				Hotkeys.toggle = false;
 			}
-			else if (!FabricPainterClient.mc.player.getPos().equals(position) && FabricPainterClient.mc.player.getPos() != null)
+			else if (!playerPos.equals(position) && playerPos != null)
 			{
 				client.player.sendMessage(Text.literal("no longer in same position, stopping"), false);
 				Hotkeys.toggle = false;

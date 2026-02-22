@@ -15,6 +15,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 
 public class Hotkeys {
 	
@@ -30,52 +32,54 @@ public class Hotkeys {
 	private static int col = 0;
 	
 	public static boolean toggle = false;
+	public static final KeyBinding.Category CATEGORY = KeyBinding.Category.create(Identifier.of(FabricPainter.MOD_ID, "painter"));
 	
 	public static boolean getToggle() {
 		return toggle;
 	}
 	
 	public Hotkeys() {
+		
 		startstop = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"Start/Stop Painting",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_I,
-				"Painter"
+				CATEGORY
 			));
 		
 		openGUI = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"Open GUI",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_O,
-				"Painter"
+				CATEGORY
 			));
 		
 		right = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"increments col by 1",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_RIGHT,
-				"Painter"
+				CATEGORY
 				));
 		
 		left = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"decrements col by 1",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_LEFT,
-				"Painter"
+				CATEGORY
 				));
 		
 		up = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"decrements row by 1",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_UP,
-				"Painter"
+				CATEGORY
 				));
 		
 		down = KeyBindingHelper.registerKeyBinding(new KeyBinding(
 				"increments row by 1",
 				InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_DOWN,
-				"Painter"
+				CATEGORY
 				));
 
 	}
@@ -137,7 +141,13 @@ public class Hotkeys {
 				if (toggle = !toggle) {
 					
 					client.player.sendMessage(Text.literal("started"), false);
-					Queue.position = FabricPainterClient.mc.player.getPos();
+					
+					Vec3d playerPos = new Vec3d(
+							FabricPainterClient.mc.player.getX(),
+							FabricPainterClient.mc.player.getY(),
+							FabricPainterClient.mc.player.getZ());
+					
+					Queue.position = playerPos;
 					
 				} else {
 					
